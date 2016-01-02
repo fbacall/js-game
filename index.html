@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+    body {
+      font-family: sans-serif;
+      color: #333;
+      background-color: #ccc;
+      margin: 0;
+    }
+    
+    #container {
+      width: 800px;
+      margin: 0 auto;
+      border-color: #666;
+      border-style: solid;
+      border-width: 0 1px 1px;
+      background-color: #fff;
+      padding: 10px 30px 30px;
+    }    
+    
+    #canvas {
+      background-color: #444;
+    }
+    
+    #canvas_container {
+      margin: 2em auto;
+      width: 640px;
+      height: 480px;
+      border: 1px solid #666;
+    }
+    
+    div.panel {
+      float: left;
+      margin-left: 30px;
+      width: 354px;
+      overflow: hidden;
+      border: 1px solid #999;
+      background-color: #ddd;
+    }
+    
+    div.panel div {
+      border-top: 1px solid #999;
+      padding: 8px;
+      background-color: #eee;
+    }
+    
+    div.panel a {
+      display: block;
+      cursor: pointer;
+      padding: 8px;
+    }
+    
+    div.panel a:hover {
+      background-color: #eee;
+    }
+    
+    #debugToggle {
+      background-color: #FF9999;
+    }
+    
+    #debugToggle.enabled {
+      background-color: #99FF99;
+    }
+    
+  </style>
+</head>
+<body>
+<div id="container">
+  <h1>Manvas</h1>
+  <div>W,A,S,D to move. Collect all the apples to win. Don't get got by the baddy!</div>
+  <div id="canvas_container">
+    <canvas id="canvas" width="640" height="480"></canvas>
+  </div>
+  <div class="panel">
+    <a id="settingsToggle">Settings</a>
+    <div id="settings" style="display: none">
+      <p>
+        Map size: <br/>
+        <input type="text" id="cBoundaryX" size="4" value="1280"/>x<input type="text" id="cBoundaryY"  size="4" value="1280"/>
+      </p>
+      <p>
+        Trees:  <br/>
+        <input type="text" id="cTreeCount" value="100"/>
+      </p>
+      <p>
+        Apples:  <br/>
+        <input type="text" id="cAppleCount" value="100"/>
+      </p>
+      <p>
+        Enemies:  <br/>
+        <input type="text" id="cEnemyCount" value="10"/>
+      </p>
+      <p>
+        Max Player Speed:  <br/>
+        <input type="text" id="cMaxSpeed" value="5"/>
+      </p>
+      <p>
+        Player Acceleration: <br/>
+        <input type="text" id="cPlayerAcceleration" value="0.7"/>
+      </p>
+      <p>
+        Friction: <br/>      
+        <input type="text" id="cFriction" value="0.4"/>
+      </p>
+      <button id="applySettings">Apply</button>
+    </div>
+  </div>
+  <div class="panel">
+    <a id="debugToggle">Debugging</a>
+    <div id="debug" style="display: none">
+      Show borders: <input type="checkbox" id="showBorders"/><br/>
+    </div>
+  </div>
+  <div style="clear: both"></div>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+<script src="linkedList.js"></script>
+<script src="util.js"></script>
+<script src="world.js"></script>
+<script src="box.js"></script>
+<script src="entity.js"></script>
+<script src="mobile.js"></script>
+<script src="sprite.js"></script>
+<script src="player.js"></script>
+<script src="enemy.js"></script>
+<script src="pathfinding.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
+
