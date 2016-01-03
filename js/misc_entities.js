@@ -34,3 +34,19 @@ function WhiteFlower(x, y) {
     Plant.call(this, images.flower1, x, y)
 }
 extend(Plant, WhiteFlower);
+
+// Particles
+var blingSprite = new Sprite(
+    images.bling, 16, 16,
+    {
+        bling:    [[0,0],[1,0],[2,0],[3,0]]
+    },
+    'bling'
+);
+
+
+function Bling(x, y) {
+    Particle.call(this, blingSprite, x, y, 60);
+    this.frameskip = 5;
+}
+extend(Particle, Bling);

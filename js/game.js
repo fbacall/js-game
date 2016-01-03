@@ -155,6 +155,7 @@ $(document).ready(function() {
                     a.handleCollision = function (other) {
                         if (other == player) {
                             world.entities.remove(this);
+                            world.entities.add(new Bling(player.x, player.topEdge()));
                             score++;
                             if (score >= appleCount) {
                                 alert("You win!!!");

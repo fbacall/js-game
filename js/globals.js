@@ -13,7 +13,8 @@ var imageUrls = {
     enemy: "img/enemy.png",
     apple: "img/apple.png",
     grass: "img/grass.png",
-    knife: "img/knife.png"
+    knife: "img/knife.png",
+    bling: "img/bling.png"
 };
 
 var images = {};
