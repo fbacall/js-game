@@ -1,14 +1,16 @@
-function Player(image, x, y) {
-    MobileEntity.call(this, new Sprite(
-            image, 32, 48,
-            {
-                top:    [[0,3],[1,3],[0,3],[3,3]],
-                right:  [[0,2],[1,2],[0,2],[3,2]],
-                bottom: [[0,0],[1,0],[0,0],[3,0]],
-                left:   [[0,1],[1,1],[0,1],[3,1]]
-            },
-            'bottom'
-        ), x, y, 20,10,22,10, settings.acceleration, settings.playerMaxSpeed
+var playerSprite = new Sprite(
+    images.player, 32, 48,
+    {
+        top:    [[0,3],[1,3],[0,3],[3,3]],
+        right:  [[0,2],[1,2],[0,2],[3,2]],
+        bottom: [[0,0],[1,0],[0,0],[3,0]],
+        left:   [[0,1],[1,1],[0,1],[3,1]]
+    },
+    'bottom'
+);
+
+function Player(x, y) {
+    MobileEntity.call(this, playerSprite, x, y, 20,10,22,10, settings.acceleration, settings.playerMaxSpeed
     );
 }
 
