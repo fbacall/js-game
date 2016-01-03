@@ -1,47 +1,4 @@
-var frames = 0;
-var debug = {enabled: false};
-var boundaryX, boundaryY, treeCount, appleCount, maxSpeed, acceleration, friction;
-var MAP = { solid: true };
-
-var imageUrls = {
-    tree1: "img/tree.png",
-    tree2: "img/tree2.png",
-    tree3: "img/pink_tree.png",
-    flower1: "img/flower1.png",
-    flower2: "img/flower2.png",
-    player: "img/player.png",
-    enemy: "img/enemy.png",
-    apple: "img/apple.png",
-    grass: "img/grass.png",
-    knife: "img/knife.png"
-};
-
-var images = {};
-
-// Game globals
-var canvas, context, player, camera, score, knives, world, grassPattern, settings = {};
-
 $(document).ready(function() {
-    // Load all images
-    var loadedImageCount = 0;
-
-    for (var i = 0; i < Object.keys(imageUrls).length; i++) {
-        var key = Object.keys(imageUrls)[i];
-        var imageObject = new Image();
-        imageObject.onload = function () {
-            console.log("Loading image: " + (loadedImageCount+1));
-            if (++loadedImageCount == Object.keys(imageUrls).length)
-                startGame();
-        };
-
-        imageObject.onerror = function () {
-          console.log("Failed to load image: " + this.src);
-        };
-
-        imageObject.src = imageUrls[key];
-        images[key] = imageObject;
-    }
-
     canvas = document.getElementById("canvas");
     context = canvas.getContext("2d");
 
@@ -139,6 +96,9 @@ $(document).ready(function() {
         //PATHTEST = aStar(navGrid[Math.floor(player.x / navGridResolution)][Math.floor(player.y / navGridResolution)],
         //    navGrid[Math.floor(x / navGridResolution)][Math.floor(y / navGridResolution)]);
     });
+
+    documentReady = true;
+    startGame();
 });//ready
 
     // Initialize the game
@@ -158,36 +118,24 @@ $(document).ready(function() {
         knives = 20;
         score = 0;
 
-        player = new Player(images.player, (boundaryX / 2), (boundaryY / 2));
+        player = new Player((boundaryX / 2), (boundaryY / 2));
 
         // Place some flowers
         var flowerCount = Math.ceil(boundaryX * boundaryY / 50000);
         for(i = 0; i < flowerCount; i++) {
-            obj = Math.random() > 0.5 ? images.flower1 : images.flower2;
-            x = obj.width + Math.random() * (boundaryX - 2*obj.width);
-            y = obj.height + Math.random() * (boundaryY - 2*obj.height);
-            var flowerEntity = new Entity(obj, x, y);
-            world.entities.add(flowerEntity);
+            var plantType = Math.random() > 0.5 ? RedFlower : WhiteFlower;
+            x = 50 + Math.random() * (boundaryX - 100);
+            y = 50 + Math.random() * (boundaryY - 100);
+            world.entities.add(new plantType(x, y));
         }
 
-        var enemySprite = new Sprite(
-            images.enemy, 32, 48,
-            {
-                top:    [[0,3],[1,3],[0,3],[3,3]],
-                right:  [[0,2],[1,2],[0,2],[3,2]],
-                bottom: [[0,0],[1,0],[0,0],[3,0]],
-                left:   [[0,1],[1,1],[0,1],[3,1]]
-            }, 'bottom'
-        );
-
         for(var i = 0; i < enemyCount; i++)
-            world.entities.add(new Enemy(enemySprite, 20 + Math.random() * 1000, 20 + Math.random()*20));
+            world.entities.add(new Enemy(20 + Math.random() * 1000, 20 + Math.random()*20));
 
         // Camera
         camera = new Box(player.x, player.y, canvas.width, canvas.height);
 
         var i, x, y, stop, tries;
-
 
         // Place player
         world.entities.add(player);
@@ -207,6 +155,7 @@ $(document).ready(function() {
                     a.handleCollision = function (other) {
                         if (other == player) {
                             world.entities.remove(this);
+                            world.entities.add(new Bling(player.x, player.topEdge()));
                             score++;
                             if (score >= appleCount) {
                                 alert("You win!!!");
@@ -226,24 +175,20 @@ $(document).ready(function() {
             tries = 200;
             while(!stop && tries-- > 0) {
                 var r = Math.random();
-                var obj, b1,b2,b3,b4;
+                var treeType;
                 if(r > 0.3) {
-                    obj = images.tree1;
-                    b1 = 1; b2 = 14; b3 = 78; b4 = 10;
+                    treeType = GreenTree;
                 } else if(r > 0.2) {
-                    obj = images.tree2;
-                    b1 = 1; b2 = 9; b3 = 55; b4 = 5;
+                    treeType = ThinTree;
                 } else {
-                    obj = images.tree3;
-                    b1 = 10; b2 = 15; b3 = 50; b4 = 15;
+                    treeType = PinkTree;
                 }
-                x = obj.width + Math.random() * (boundaryX - 2*obj.width);
-                y = obj.height + ((boundaryY - 2*obj.height) / treeCount * (i + 1));
+                x = 100 + Math.random() * (boundaryX - 200);
+                y = 100 + ((boundaryY - 200) / treeCount * (i + 1));
                 // Make sure they're not blocking the starting area
                 if((x < (boundaryX / 2 - 100) || x > (boundaryX / 2 + 100)) &&
                     (y < (boundaryY / 2 - 100) || y > (boundaryY / 2 + 100))) {
-                    var treeEntity = new Entity(obj, x,y, b1,b2,b3,b4, true);
-                    world.entities.add(treeEntity);
+                    world.entities.add(new treeType(x,y));
                     stop = true;
                 }
             }
@@ -460,6 +405,13 @@ $(document).ready(function() {
 
     function startGame() {
         console.log("*** startGame called");
+        if(!imagesReady) {
+            console.log("Images not ready...")
+            return;
+        } else if(!documentReady) {
+            console.log("Document not ready...");
+            return;
+        }
         // This should go somewhere else maybe
         grassPattern=context.createPattern(images.grass, 'repeat');
 

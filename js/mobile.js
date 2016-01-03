@@ -90,7 +90,7 @@ MobileEntity.prototype.detectCollision = function () {
 
         // Stop altogether if we've detected collisions on both axes
         if (me.colliding[X] !== null && me.colliding[Y] !== null)
-            return false; // FIXME: me doesn't work now we're using an iterator...
+            return false;
 
         // Stop checking this axis once we detect collision
         if (me.colliding[X] == null) {
