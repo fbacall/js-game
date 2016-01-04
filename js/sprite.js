@@ -17,4 +17,3 @@ Sprite.prototype.draw = function (context, animation, frame, x, y) {
         (this.height * this.animations[animation][frame][1]),
         this.width, this.height, x, y, this.width, this.height);
 };
-

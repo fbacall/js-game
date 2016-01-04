@@ -39,7 +39,7 @@ var Pathfinding = {
     },
 
     // Blocks off nodes from the navGrid according to the collision box of a given entity
-        blockNodes : function (entity) {
+    blockNodes : function (entity) {
         var startX = Math.floor(entity.leftBoundary() / Pathfinding.navGridResolution);
         var endX = Math.floor(entity.rightBoundary() / Pathfinding.navGridResolution);
         var startY = Math.floor(entity.topBoundary() / Pathfinding.navGridResolution);
@@ -129,7 +129,7 @@ var Pathfinding = {
 
     toMapCoords : function(node) {
         return [node.x * Pathfinding.navGridResolution + (Pathfinding.navGridResolution / 2),
-                node.y * Pathfinding.navGridResolution + (Pathfinding.navGridResolution / 2)];
+            node.y * Pathfinding.navGridResolution + (Pathfinding.navGridResolution / 2)];
     },
     toNavGridNode : function(x,y) {
         return Pathfinding.navGrid[Math.floor(x / Pathfinding.navGridResolution)][Math.floor(y / Pathfinding.navGridResolution)]

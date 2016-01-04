@@ -42,4 +42,4 @@ for (var i = 0; i < imagesToLoad; i++) {
 }
 
 // Game globals
-var canvas, context, player, camera, score, knives, world, grassPattern, settings = {};
+var canvas, context, player, camera, score, world, grassPattern, settings = {};
