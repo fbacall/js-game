@@ -177,8 +177,8 @@ function init() {
             } else {
                 treeType = PinkTree;
             }
-            x = 100 + Math.random() * (boundaryX - 200);
-            y = 100 + ((boundaryY - 200) / treeCount * (i + 1));
+            x = 100 + Math.random() * (boundaryX - 300);
+            y = 100 + ((boundaryY - 300) / treeCount * (i + 1));
             // Make sure they're not blocking the starting area
             if((x < (boundaryX / 2 - 100) || x > (boundaryX / 2 + 100)) &&
                 (y < (boundaryY / 2 - 100) || y > (boundaryY / 2 + 100))) {
