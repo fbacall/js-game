@@ -9,7 +9,7 @@ var enemySprite = new Sprite(
 );
 
 function Enemy(x, y) {
-    MobileEntity.call(this, enemySprite, x, y, 14,8,14,8, 0.8, 0.8 + (Math.random() * 2));
+    MobileEntity.call(this, enemySprite, x, y, 14,8,14,8, 1, 1.15 + (Math.random()));
 
     this.path = [];
     this.lastPathCalc = Math.random() * 50; // Randomize so every enemy doesn't do pathfinding on the same frame
@@ -20,9 +20,9 @@ extend(MobileEntity, Enemy);
 Enemy.prototype.solid = false;
 
 Enemy.prototype.update = function () {
-    // Recalc path every 50 frames
-    if(this.lastPathCalc++ > 50) {
-        this.path = Pathfinding.aStar([this.x, this.y],[player.x, player.y]);
+    // Recalc path every 60 frames
+    if(this.lastPathCalc++ > 60) {
+        this.path = Pathfinding.aStar([this.x, this.y], [player.x, player.y]);
         this.lastPathCalc = 0;
     }
 
