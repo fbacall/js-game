@@ -1,7 +1,7 @@
 # js-game
 JavaScript/HTML5 canvas game
 
-https://github.io/fbacall/js-game
+http://fbacall.github.io/js-game/
 
 ### Credits
 Graphics by Sithjester @ http://untamed.wild-refuge.net/rmxpresources.php?characters
