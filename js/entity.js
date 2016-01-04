@@ -9,6 +9,7 @@ function Entity(image, x, y, bTop, bRight, bBottom, bLeft, solid) {
     this.boundaryLeft = bLeft || this.image.width/2;
 
     this.solid = solid || false;
+    this.collidable = true;
 
     this.next = null;
     this.prev = null;

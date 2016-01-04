@@ -22,6 +22,7 @@ extend(Tree, PinkTree);
 // Plants
 function Plant(image, x, y) {
     Entity.call(this, image, x, y)
+    this.collidable = false;
 }
 extend(Entity, Plant);
 

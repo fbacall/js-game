@@ -84,8 +84,8 @@ MobileEntity.prototype.detectCollision = function () {
     // Iterate over list of objects
     var me = this;
     world.entities.each(function (entity) {
-        // Can't collide with ourself, so skip this
-        if (entity === me)
+        // Can't collide with ourself or non-solid entities, so skip this
+        if (entity === me || !entity.collidable)
             return true;
 
         // Stop altogether if we've detected collisions on both axes

@@ -7,6 +7,7 @@ function Particle(sprite, x, y, ttl, maxAcceleration, maxSpeed) {
 
     this.velocity = [0,0];
     this.acceleration = [0,0];
+    this.collidable = false;
 
     this.ttl = ttl;
 
