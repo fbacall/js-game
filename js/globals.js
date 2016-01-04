@@ -1,5 +1,4 @@
 var frames = 0;
-var debug = {enabled: false};
 var boundaryX, boundaryY, treeCount, appleCount, maxSpeed, acceleration, friction;
 var MAP = { solid: true };
 
