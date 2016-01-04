@@ -149,10 +149,12 @@ MobileEntity.prototype.directionalAnimation = function () {
         this.animation = 'right';
     else if (this.acceleration[X] < 0)
         this.animation = 'left';
-    else if (this.acceleration[Y] > 0)
-        this.animation = 'bottom';
-    else if (this.acceleration[Y] < 0)
-        this.animation = 'top';
+    if(abs(this.acceleration[Y]) > abs(this.acceleration[X])) {
+        if (this.acceleration[Y] > 0)
+            this.animation = 'bottom';
+        else if (this.acceleration[Y] < 0)
+            this.animation = 'top';
+    }
 
     if (this.velocity[Y] == 0 && this.velocity[X] == 0) {
         this.pause = true;

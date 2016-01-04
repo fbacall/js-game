@@ -63,38 +63,33 @@ $(document).ready(function() {
         }
     });
 
-    // Throw knife
-    $(canvas).click(function (event) {
+    var clickMoving = false;
+    $(canvas).mousemove(function (event) {
+        if(clickMoving) {
+            event.preventDefault();
+            var x = (event.pageX - canvas.offsetLeft) + camera.leftEdge() - player.x;
+            var y = (event.pageY - canvas.offsetTop) + camera.topEdge() - player.y;
+            player.acceleration = normalise([x,y],15);
+        }
+    });
+    $(canvas).mousedown(function (event) {
         event.preventDefault();
         var x = (event.pageX - canvas.offsetLeft) + camera.leftEdge() - player.x;
         var y = (event.pageY - canvas.offsetTop) + camera.topEdge() - player.y;
-        var vector = normalise([x,y],15);
-        if (knives > 0) {
-            // Turn player to face
-            if (abs(x) > abs(y)) {
-                if (x > 0)
-                    player.animation = 'right';
-                else
-                    player.animation = 'left';
-            }
-            else {
-                if (y > 0)
-                    player.animation = 'bottom';
-                else
-                    player.animation = 'top';
-            }
-            // Spawn knife
-            console.log(player.x, player.y, x, y);
-            makeKnife(player.x, player.y, vector);
-            knives--;
-        }
-
+        player.acceleration = normalise([x,y],15);
+        clickMoving = true;
 
         //var x = (event.pageX - canvas.offsetLeft) + camera.leftEdge();
         //var y = (event.pageY - canvas.offsetTop) + camera.topEdge();
         //console.log(Math.floor(x / navGridResolution));
         //PATHTEST = aStar(navGrid[Math.floor(player.x / navGridResolution)][Math.floor(player.y / navGridResolution)],
         //    navGrid[Math.floor(x / navGridResolution)][Math.floor(y / navGridResolution)]);
+    });
+    $(window).mouseup(function () {
+        if(clickMoving) {
+            player.acceleration = [0,0];
+            clickMoving = false;
+        }
     });
 
     documentReady = true;
@@ -115,7 +110,6 @@ $(document).ready(function() {
         friction = parseFloat($('#cFriction').val());
         enemyCount = parseInt($('#cEnemyCount').val());
 
-        knives = 20;
         score = 0;
 
         player = new Player((boundaryX / 2), (boundaryY / 2));
@@ -197,43 +191,7 @@ $(document).ready(function() {
         Pathfinding.initialiseNavGrid(world);
     } // End of init
 
-    function makeKnife(x,y, velocity) {
-        var k = new MobileEntity(new Sprite(images.knife, 16, 16,
-                { spin: [[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0]] }, 'spin'),
-            x,y,8,8,8,8, 5, 20);
-        k.frame = Math.ceil(Math.random() * 7);
-        k.updateAnimation = function (){
-            if (this.velocity[X] == 0 && this.velocity[Y] == 0)
-                this.pause = true;
-            else
-                this.frameskip = Math.ceil(5 / this.speed());
-        };
-        k.handleCollision = function (other, direction) {
-            if (other == player && this.speed() == 0) {
-                knives++;
-                world.entities.remove(this); // Remove me
-            }
-            else if (other.solid) {
-                if (direction == X) {
-                    this.velocity[X] = -this.velocity[X] / 1.5;
-                    this.velocity[Y] = this.velocity[Y] / 1.5;
-                }
-                else {
-                    this.velocity[X] = this.velocity[X] / 1.5;
-                    this.velocity[Y] = -this.velocity[Y] / 1.5;
-                }
-            }
-            if (other instanceof Enemy && this.speed() > 0) {
-                // Knock enemy back
-                other.velocity[X] += this.velocity[X];
-                other.velocity[Y] += this.velocity[Y];
-            }
-        };
-        k.velocity = velocity;
-        world.entities.add(k);
-    }
-
-    // Main processing method
+   // Main processing method
     function update() {
         // Move mobiles
         world.entities.each(function (entity) {
@@ -262,11 +220,6 @@ $(document).ready(function() {
         context.strokeRect(0, 0, boundaryX, boundaryY);
         context.restore();
 
-        // Draw enemy path
-        //if (debug.enabled) {
-        //    drawPath(enemy.path, 255);
-        //}
-
         // Draw entities
         var drawn = 0;
 
@@ -285,7 +238,6 @@ $(document).ready(function() {
         // Draw score
         context.font="20px Arial";
         drawText("Score: " + score, 10, 30);
-        drawText("Knives: " + knives,10,50);
         if (debug.enabled) {
             debug.entityCount = world.entities.count;
             debug.drawnEntityCount = drawn;
@@ -406,7 +358,7 @@ $(document).ready(function() {
     function startGame() {
         console.log("*** startGame called");
         if(!imagesReady) {
-            console.log("Images not ready...")
+            console.log("Images not ready...");
             return;
         } else if(!documentReady) {
             console.log("Document not ready...");
