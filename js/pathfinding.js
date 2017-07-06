@@ -93,7 +93,7 @@ var Pathfinding = {
                 }
 
                 if (tries == 1000) {
-                    alert("BAD");
+                    alert("Can't pathfind!!!1");
                     Pathfinding.DEBUG_PATH = path;
                 }
                 path.push(Pathfinding.toMapCoords(c));

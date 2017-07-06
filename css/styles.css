@@ -1,0 +1,68 @@
+body {
+    font-family: sans-serif;
+    color: #333;
+    background-color: #ccc;
+    margin: 0;
+}
+
+#container {
+    width: 800px;
+    margin: 0 auto;
+    border-color: #666;
+    border-style: solid;
+    border-width: 0 1px 1px;
+    background-color: #fff;
+    padding: 10px 30px 30px;
+}
+
+#canvas {
+    background-color: #444;
+}
+
+#canvas_container {
+    margin: 2em auto;
+    width: 640px;
+    height: 480px;
+    border: 1px solid #666;
+}
+
+div.panel {
+    float: left;
+    margin-left: 30px;
+    width: 354px;
+    overflow: hidden;
+    border: 1px solid #999;
+    background-color: #ddd;
+}
+
+div.panel div {
+    border-top: 1px solid #999;
+    padding: 8px;
+    background-color: #eee;
+}
+
+div.panel a {
+    display: block;
+    cursor: pointer;
+    padding: 8px;
+}
+
+div.panel a:hover {
+    background-color: #eee;
+}
+
+#debugToggle {
+    background-color: #FF9999;
+}
+
+#debugToggle.enabled {
+    background-color: #99FF99;
+}
+
+#settings {
+    display: none;
+}
+
+#settings.visible {
+    display: block;
+}

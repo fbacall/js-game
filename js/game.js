@@ -1,13 +1,15 @@
-$(document).ready(function() {
-    canvas = document.getElementById("canvas");
-    context = canvas.getContext("2d");
+window.onload = function() {
+    canvas = document.getElementById('canvas');
+    context = canvas.getContext('2d');
 
-    $('#applySettings').click(function () { init(); });
-    $('#settingsToggle').click(function () {$('#settings').toggle();});
+    document.getElementById('applySettings').addEventListener('click', init);
+    document.getElementById('settingsToggle').addEventListener('click', function () {
+        document.getElementById('settings').classList.toggle('visible');
+    });
 
     // Debugging
-    $('#debugToggle').click(function () {
-        $('#debugToggle').toggleClass('enabled');
+    document.getElementById('debugToggle').addEventListener('click', function () {
+        document.getElementById('debugToggle').classList.toggle('enabled');
         debug.enabled = !debug.enabled;
         if (debug.enabled)
         // Measure FPS
@@ -21,7 +23,7 @@ $(document).ready(function() {
     });
 
     // Player controls
-    $(window).keydown(function(event) {
+    window.addEventListener('keydown', function(event) {
         if (event.which == 87) {//W up
             event.preventDefault();
             player.acceleration = [player.acceleration[X], -1];
@@ -40,7 +42,7 @@ $(document).ready(function() {
         }
     });
 
-    $(window).keyup(function(event) {
+    window.addEventListener('keyup', function(event) {
         if (event.which == 87) {//w
             event.preventDefault();
             if(player.acceleration[Y] < 0)
@@ -64,7 +66,7 @@ $(document).ready(function() {
     });
 
     var clickMoving = false;
-    $(canvas).mousemove(function (event) {
+    canvas.addEventListener('mousemove', function (event) {
         if(clickMoving) {
             event.preventDefault();
             var x = (event.pageX - canvas.offsetLeft) + camera.leftEdge() - player.x;
@@ -72,7 +74,7 @@ $(document).ready(function() {
             player.acceleration = normalise([x,y],15);
         }
     });
-    $(canvas).mousedown(function (event) {
+    canvas.addEventListener('mousedown', function (event) {
         event.preventDefault();
         var x = (event.pageX - canvas.offsetLeft) + camera.leftEdge() - player.x;
         var y = (event.pageY - canvas.offsetTop) + camera.topEdge() - player.y;
@@ -85,7 +87,7 @@ $(document).ready(function() {
         //PATHTEST = aStar(navGrid[Math.floor(player.x / navGridResolution)][Math.floor(player.y / navGridResolution)],
         //    navGrid[Math.floor(x / navGridResolution)][Math.floor(y / navGridResolution)]);
     });
-    $(window).mouseup(function () {
+    window.addEventListener('mouseup', function () {
         if(clickMoving) {
             player.acceleration = [0,0];
             clickMoving = false;
@@ -94,21 +96,21 @@ $(document).ready(function() {
 
     documentReady = true;
     startGame();
-});//ready
+};
 
 // Initialize the game
 function init() {
     console.log("*** init called");
 
     world = new World();
-    boundaryX = parseFloat($('#cBoundaryX').val());
-    boundaryY = parseFloat($('#cBoundaryY').val());
-    treeCount = parseInt($('#cTreeCount').val());
-    appleCount = parseInt($('#cAppleCount').val());
-    settings.playerMaxSpeed = parseFloat($('#cMaxSpeed').val());
-    settings.playerAcceleration = parseFloat($('#cPlayerAcceleration').val());
-    friction = parseFloat($('#cFriction').val());
-    enemyCount = parseInt($('#cEnemyCount').val());
+    boundaryX = parseFloat(document.getElementById('cBoundaryX').value);
+    boundaryY = parseFloat(document.getElementById('cBoundaryY').value);
+    treeCount = parseInt(document.getElementById('cTreeCount').value);
+    appleCount = parseInt(document.getElementById('cAppleCount').value);
+    settings.playerMaxSpeed = parseFloat(document.getElementById('cMaxSpeed').value);
+    settings.playerAcceleration = parseFloat(document.getElementById('cPlayerAcceleration').value);
+    friction = parseFloat(document.getElementById('cFriction').value);
+    enemyCount = parseInt(document.getElementById('cEnemyCount').value);
 
     score = 0;
 
