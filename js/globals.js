@@ -1,8 +1,8 @@
-var frames = 0;
-var boundaryX, boundaryY, treeCount, appleCount, maxSpeed, acceleration, friction;
-var MAP = { solid: true };
+let frames = 0;
+let boundaryX, boundaryY, treeCount, appleCount, maxSpeed, acceleration, friction;
+const MAP = { solid: true };
 
-var imageUrls = {
+const imageUrls = {
     tree1: "img/tree.png",
     tree2: "img/tree2.png",
     tree3: "img/pink_tree.png",
@@ -16,19 +16,19 @@ var imageUrls = {
     bling: "img/bling.png"
 };
 
-var images = {};
+const images = {};
 
 // Load all images
-var loadedImageCount = 0;
-var imagesReady = false;
-var documentReady = false;
-var imagesToLoad = Object.keys(imageUrls).length;
-for (var i = 0; i < imagesToLoad; i++) {
-    var key = Object.keys(imageUrls)[i];
-    var imageObject = new Image();
+let loadedImageCount = 0;
+let imagesReady = false;
+let documentReady = false;
+let imagesToLoad = Object.keys(imageUrls).length;
+for (let i = 0; i < imagesToLoad; i++) {
+    let key = Object.keys(imageUrls)[i];
+    const imageObject = new Image();
     imageObject.onload = function () {
         console.log("Loading image: " + (loadedImageCount+1) + " / " + imagesToLoad);
-        if (++loadedImageCount == imagesToLoad) {
+        if (++loadedImageCount === imagesToLoad) {
             imagesReady = true;
             startGame();
         }
@@ -42,4 +42,4 @@ for (var i = 0; i < imagesToLoad; i++) {
 }
 
 // Game globals
-var canvas, context, player, camera, score, world, grassPattern, settings = {};
+let canvas, context, player, camera, score, world, grassPattern, settings = {};

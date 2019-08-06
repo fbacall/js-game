@@ -1,43 +1,50 @@
 // Trees
-function Tree(image, x, y, bTop, bRight, bBottom, bLeft) {
-    Entity.call(this, image, x, y, bTop, bRight, bBottom, bLeft, true)
+class Tree extends Entity {
+    constructor(image, x, y, bTop, bRight, bBottom, bLeft) {
+        super(image, x, y, bTop, bRight, bBottom, bLeft, true);
+    }
 }
-extend(Entity, Tree);
 
-function GreenTree(x, y) {
-    Tree.call(this, images.tree1, x, y,  1, 14, 78, 10)
+class GreenTree extends Tree {
+    constructor (x, y) {
+        super(images.tree1, x, y,  1, 14, 78, 10);
+    }
 }
-extend(Tree, GreenTree);
 
-function ThinTree(x, y) {
-    Tree.call(this, images.tree2, x, y, 1, 9, 55, 5)
+class ThinTree extends Tree {
+    constructor (x, y) {
+        super(images.tree2, x, y, 1, 9, 55, 5);
+    }
 }
-extend(Tree, ThinTree);
 
-function PinkTree(x, y) {
-    Tree.call(this, images.tree3, x, y, 10, 15, 50, 15)
+class PinkTree extends Tree {
+    constructor (x, y) {
+        super(images.tree3, x, y, 10, 15, 50, 15)
+    }
 }
-extend(Tree, PinkTree);
 
 // Plants
-function Plant(image, x, y) {
-    Entity.call(this, image, x, y)
-    this.collidable = false;
+class Plant extends Entity {
+    constructor (image, x, y) {
+        super(image, x, y);
+        this.collidable = false;
+    }
 }
-extend(Entity, Plant);
 
-function RedFlower(x, y) {
-    Plant.call(this, images.flower2, x, y)
+class RedFlower extends Plant {
+    constructor (x, y) {
+        super(images.flower2, x, y);
+    }
 }
-extend(Plant, RedFlower);
 
-function WhiteFlower(x, y) {
-    Plant.call(this, images.flower1, x, y)
+class WhiteFlower extends Plant {
+    constructor (x, y) {
+        super(images.flower1, x, y);
+    }
 }
-extend(Plant, WhiteFlower);
 
 // Particles
-var blingSprite = new Sprite(
+const blingSprite = new Sprite(
     images.bling, 16, 16,
     {
         bling:    [[0,0],[1,0],[2,0],[3,0]]
@@ -45,9 +52,9 @@ var blingSprite = new Sprite(
     'bling'
 );
 
-
-function Bling(x, y) {
-    Particle.call(this, blingSprite, x, y, 60);
-    this.frameskip = 5;
+class Bling extends Particle {
+    constructor (x, y) {
+        super(blingSprite, x, y, 60);
+        this.frameskip = 5;
+    }
 }
-extend(Particle, Bling);

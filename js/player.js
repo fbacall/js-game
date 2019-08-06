@@ -1,4 +1,4 @@
-var playerSprite = new Sprite(
+const playerSprite = new Sprite(
     images.player, 32, 48,
     {
         top:    [[0,3],[1,3],[0,3],[3,3]],
@@ -9,20 +9,18 @@ var playerSprite = new Sprite(
     'bottom'
 );
 
-function Player(x, y) {
-    MobileEntity.call(this, playerSprite, x, y, 20,10,22,10, settings.acceleration, settings.playerMaxSpeed
-    );
-}
-
-extend(MobileEntity, Player);
-
-Player.prototype.updateAnimation = MobileEntity.prototype.directionalAnimation;
-
-Player.prototype.handleCollision = function (other, direction) {
-    if (other.solid) {
-        if (direction == X)
-            this.velocity[X] = 0;
-        else
-            this.velocity[Y] = 0;
+class Player extends MobileEntity {
+    constructor (x, y) {
+        super(playerSprite, x, y, 20,10,22,10, settings.acceleration, settings.playerMaxSpeed);
+        this.updateAnimation = MobileEntity.prototype.directionalAnimation;
     }
-};
+
+    handleCollision (other, direction) {
+        if (other.solid) {
+            if (direction === X)
+                this.velocity[X] = 0;
+            else
+                this.velocity[Y] = 0;
+        }
+    }
+}

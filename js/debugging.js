@@ -1,4 +1,4 @@
-var debug = {
+const debug = {
     enabled: false,
     drawObjectBorders: function (object) {
         // Image box
@@ -10,7 +10,7 @@ var debug = {
             context.beginPath();
             context.lineWidth = "1";
             context.moveTo(object.leftBoundary(), object.topBoundary());
-            context.strokeStyle = (object.colliding[Y] != null ? "red" : "#0f0");
+            context.strokeStyle = (object.colliding[Y] !== null ? "red" : "#0f0");
             context.lineTo(object.rightBoundary(), object.topBoundary());
             context.stroke();
 
@@ -18,7 +18,7 @@ var debug = {
             context.beginPath();
             context.lineWidth = "1";
             context.moveTo(object.rightBoundary(), object.topBoundary());
-            context.strokeStyle = (object.colliding[X] != null ? "red" : "#0f0");
+            context.strokeStyle = (object.colliding[X] !== null ? "red" : "#0f0");
             context.lineTo(object.rightBoundary(), object.bottomBoundary());
             context.stroke();
 
@@ -26,7 +26,7 @@ var debug = {
             context.beginPath();
             context.lineWidth = "1";
             context.moveTo(object.rightBoundary(), object.bottomBoundary());
-            context.strokeStyle = (object.colliding[Y] != null ? "red" : "#0f0");
+            context.strokeStyle = (object.colliding[Y] !== null ? "red" : "#0f0");
             context.lineTo(object.leftBoundary(), object.bottomBoundary());
             context.stroke();
 
@@ -34,7 +34,7 @@ var debug = {
             context.beginPath();
             context.lineWidth = "1";
             context.moveTo(object.leftBoundary(), object.bottomBoundary());
-            context.strokeStyle = (object.colliding[X] != null ? "red" : "#0f0");
+            context.strokeStyle = (object.colliding[X] !== null ? "red" : "#0f0");
             context.lineTo(object.leftBoundary(), object.topBoundary());
             context.stroke();
         }
@@ -47,8 +47,8 @@ var debug = {
 
     drawPath: function (path, red, green, blue) {
 
-        for (var i = 0; i < path.length; i++) {
-            var s = Math.ceil(i / path.length * 255);
+        for (let i = 0; i < path.length; i++) {
+            const s = Math.ceil(i / path.length * 255);
             r = red ? red : s;
             g = green ? green : s;
             b = blue ? blue : s;
@@ -69,19 +69,19 @@ var debug = {
             context.lineWidth="1";
             context.strokeStyle = '#000000';
             context.beginPath();
-            for (var i = 0; i < Pathfinding.navGridWidth; i++) {
+            for (let i = 0; i < Pathfinding.navGridWidth; i++) {
                 context.moveTo(i * Pathfinding.navGridResolution, 0);
                 context.lineTo(i * Pathfinding.navGridResolution, boundaryY);
             }
-            for (var j = 0; j < Pathfinding.navGridHeight; j++) {
+            for (let j = 0; j < Pathfinding.navGridHeight; j++) {
                 context.moveTo(0, j * Pathfinding.navGridResolution);
                 context.lineTo(boundaryX, j * Pathfinding.navGridResolution);
             }
             context.stroke();
             // Show blocked boxes
             context.fillStyle = "#ff0000";
-            for (var i = 0; i < Pathfinding.navGridWidth; i++)
-                for (var j = 0; j < Pathfinding.navGridHeight; j++)
+            for (let i = 0; i < Pathfinding.navGridWidth; i++)
+                for (let j = 0; j < Pathfinding.navGridHeight; j++)
                     if (Pathfinding.navGrid[i][j].blocked)
                         context.fillRect(i * Pathfinding.navGridResolution, j * Pathfinding.navGridResolution, Pathfinding.navGridResolution, Pathfinding.navGridResolution);
 

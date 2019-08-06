@@ -1,69 +1,69 @@
-function Entity(image, x, y, bTop, bRight, bBottom, bLeft, solid) {
-    Box.call(this,Math.round(x), Math.round(y), image.width, image.height); // Superconstructor!
+class Entity extends Box {
+    constructor (image, x, y, bTop, bRight, bBottom, bLeft, solid) {
+        super(Math.round(x), Math.round(y), image.width, image.height);
 
-    this.image = image;
+        this.image = image;
 
-    this.boundaryTop = bTop || this.image.height/2;
-    this.boundaryRight = bRight || this.image.width/2;
-    this.boundaryBottom = bBottom || this.image.height/2;
-    this.boundaryLeft = bLeft || this.image.width/2;
+        this.boundaryTop = bTop || this.image.height/2;
+        this.boundaryRight = bRight || this.image.width/2;
+        this.boundaryBottom = bBottom || this.image.height/2;
+        this.boundaryLeft = bLeft || this.image.width/2;
 
-    this.solid = solid || false;
-    this.collidable = true;
+        this.solid = solid || false;
+        this.collidable = true;
 
-    this.next = null;
-    this.prev = null;
+        this.next = null;
+        this.prev = null;
+    }
+
+    draw (context) {
+        context.drawImage(this.image, this.leftEdge(), this.topEdge());
+    }
+
+    rightBoundary () {
+        return this.x + this.boundaryRight;
+    }
+
+    leftBoundary () {
+        return this.x - this.boundaryLeft;
+    }
+
+    topBoundary () {
+        return this.y - this.boundaryTop;
+    }
+
+    bottomBoundary () {
+        return this.y + this.boundaryBottom;
+    }
+
+    collisionRight (other, distance) {
+        return this.x < other.x && this.rightBoundary() + (distance || 0) > other.leftBoundary() &&
+            this.bottomBoundary() > other.topBoundary() && this.topBoundary() < other.bottomBoundary();
+    }
+
+    collisionLeft (other, distance) {
+        return this.x > other.x && this.leftBoundary() + (distance || 0) < other.rightBoundary() &&
+            this.bottomBoundary() > other.topBoundary() && this.topBoundary() < other.bottomBoundary();
+    }
+
+    collisionTop (other, distance) {
+        return this.y > other.y && this.topBoundary() + (distance || 0) < other.bottomBoundary() &&
+            this.rightBoundary() > other.leftBoundary() && this.leftBoundary() < other.rightBoundary();
+    }
+
+    collisionBottom (other, distance) {
+        return this.y < other.y && this.bottomBoundary() + (distance || 0) > other.topBoundary() &&
+            this.rightBoundary() > other.leftBoundary() && this.leftBoundary() < other.rightBoundary();
+    }
+
+    collision (other) {
+        return this.rightBoundary() > other.leftBoundary() && this.leftBoundary() < other.rightBoundary() &&
+            this.bottomBoundary() > other.topBoundary() && this.topBoundary() < other.bottomBoundary();
+    }
+
+    isVisible (camera) {
+        return camera.overlap(this);
+    }
+
+    handleCollision (object, direction) {}
 }
-
-extend(Box, Entity);
-
-Entity.prototype.draw = function (context) {
-    context.drawImage(this.image, this.leftEdge(), this.topEdge());
-};
-
-Entity.prototype.rightBoundary = function () {
-    return this.x + this.boundaryRight;
-};
-
-Entity.prototype.leftBoundary = function () {
-    return this.x - this.boundaryLeft;
-};
-
-Entity.prototype.topBoundary = function () {
-    return this.y - this.boundaryTop;
-};
-
-Entity.prototype.bottomBoundary = function () {
-    return this.y + this.boundaryBottom;
-};
-
-Entity.prototype.collisionRight = function (other, distance) {
-    return this.x < other.x && this.rightBoundary() + (distance || 0) > other.leftBoundary() &&
-        this.bottomBoundary() > other.topBoundary() && this.topBoundary() < other.bottomBoundary();
-};
-
-Entity.prototype.collisionLeft = function (other, distance) {
-    return this.x > other.x && this.leftBoundary() + (distance || 0) < other.rightBoundary() &&
-        this.bottomBoundary() > other.topBoundary() && this.topBoundary() < other.bottomBoundary();
-};
-
-Entity.prototype.collisionTop = function (other, distance) {
-    return this.y > other.y && this.topBoundary() + (distance || 0) < other.bottomBoundary() &&
-        this.rightBoundary() > other.leftBoundary() && this.leftBoundary() < other.rightBoundary();
-};
-
-Entity.prototype.collisionBottom = function (other, distance) {
-    return this.y < other.y && this.bottomBoundary() + (distance || 0) > other.topBoundary() &&
-        this.rightBoundary() > other.leftBoundary() && this.leftBoundary() < other.rightBoundary();
-};
-
-Entity.prototype.collision = function (other) {
-    return this.rightBoundary() > other.leftBoundary() && this.leftBoundary() < other.rightBoundary() &&
-        this.bottomBoundary() > other.topBoundary() && this.topBoundary() < other.bottomBoundary();
-};
-
-Entity.prototype.isVisible = function (camera) {
-    return camera.overlap(this);
-};
-
-Entity.prototype.handleCollision = function (object, direction) {};

@@ -24,71 +24,71 @@ window.onload = function() {
 
     // Player controls
     window.addEventListener('keydown', function(event) {
-        if (event.which == 87) {//W up
+        if (event.key === 'w') {//W up
             event.preventDefault();
             player.acceleration = [player.acceleration[X], -1];
         }
-        else if (event.which == 83) {//S down
+        else if (event.key === 's') {//S down
             event.preventDefault();
             player.acceleration = [player.acceleration[X], 1];
         }
-        else if (event.which == 65) {//A left
+        else if (event.key === 'a') {//A left
             event.preventDefault();
             player.acceleration = [-1, player.acceleration[Y]];
         }
-        else if (event.which == 68) {//D right
+        else if (event.key === 'd') {//D right
             event.preventDefault();
             player.acceleration = [1, player.acceleration[Y]];
         }
     });
 
     window.addEventListener('keyup', function(event) {
-        if (event.which == 87) {//w
+        if (event.key === 'w') {//W up
             event.preventDefault();
-            if(player.acceleration[Y] < 0)
+            if (player.acceleration[Y] < 0)
                 player.acceleration[Y] = 0;
         }
-        else if (event.which == 83) {//s
+        else if (event.key === 's') {//S down
             event.preventDefault();
-            if(player.acceleration[Y] > 0)
+            if (player.acceleration[Y] > 0)
                 player.acceleration[Y] = 0;
         }
-        else if (event.which == 65) {//a
+        else if (event.key === 'a') {//A left
             event.preventDefault();
-            if(player.acceleration[X] < 0)
+            if (player.acceleration[X] < 0)
                 player.acceleration[X] = 0;
         }
-        else if (event.which == 68) {//d
+        else if (event.key === 'd') {//D right
             event.preventDefault();
-            if(player.acceleration[X] > 0)
+            if (player.acceleration[X] > 0)
                 player.acceleration[X] = 0;
         }
     });
 
-    var clickMoving = false;
+    let clickMoving = false;
     canvas.addEventListener('mousemove', function (event) {
-        if(clickMoving) {
+        if (clickMoving) {
             event.preventDefault();
-            var x = (event.pageX - canvas.offsetLeft) + camera.leftEdge() - player.x;
-            var y = (event.pageY - canvas.offsetTop) + camera.topEdge() - player.y;
+            const x = (event.pageX - canvas.offsetLeft) + camera.leftEdge() - player.x;
+            const y = (event.pageY - canvas.offsetTop) + camera.topEdge() - player.y;
             player.acceleration = normalise([x,y],15);
         }
     });
     canvas.addEventListener('mousedown', function (event) {
         event.preventDefault();
-        var x = (event.pageX - canvas.offsetLeft) + camera.leftEdge() - player.x;
-        var y = (event.pageY - canvas.offsetTop) + camera.topEdge() - player.y;
+        const x = (event.pageX - canvas.offsetLeft) + camera.leftEdge() - player.x;
+        const y = (event.pageY - canvas.offsetTop) + camera.topEdge() - player.y;
         player.acceleration = normalise([x,y],15);
         clickMoving = true;
 
-        //var x = (event.pageX - canvas.offsetLeft) + camera.leftEdge();
-        //var y = (event.pageY - canvas.offsetTop) + camera.topEdge();
+        //const x = (event.pageX - canvas.offsetLeft) + camera.leftEdge();
+        //const y = (event.pageY - canvas.offsetTop) + camera.topEdge();
         //console.log(Math.floor(x / navGridResolution));
         //PATHTEST = aStar(navGrid[Math.floor(player.x / navGridResolution)][Math.floor(player.y / navGridResolution)],
         //    navGrid[Math.floor(x / navGridResolution)][Math.floor(y / navGridResolution)]);
     });
     window.addEventListener('mouseup', function () {
-        if(clickMoving) {
+        if (clickMoving) {
             player.acceleration = [0,0];
             clickMoving = false;
         }
@@ -117,39 +117,39 @@ function init() {
     player = new Player((boundaryX / 2), (boundaryY / 2));
 
     // Place some flowers
-    var flowerCount = Math.ceil(boundaryX * boundaryY / 50000);
-    for(i = 0; i < flowerCount; i++) {
-        var plantType = Math.random() > 0.5 ? RedFlower : WhiteFlower;
-        x = 50 + Math.random() * (boundaryX - 100);
-        y = 50 + Math.random() * (boundaryY - 100);
+    const flowerCount = Math.ceil(boundaryX * boundaryY / 50000);
+    for (let i = 0; i < flowerCount; i++) {
+        const plantType = Math.random() > 0.5 ? RedFlower : WhiteFlower;
+        const x = 50 + Math.random() * (boundaryX - 100);
+        const y = 50 + Math.random() * (boundaryY - 100);
         world.entities.add(new plantType(x, y));
     }
 
-    for(var i = 0; i < enemyCount; i++)
+    for (let i = 0; i < enemyCount; i++)
         world.entities.add(new Enemy(20 + Math.random() * 1000, 20 + Math.random()*20));
 
     // Camera
     camera = new Box(player.x, player.y, canvas.width, canvas.height);
 
-    var i, x, y, stop, tries;
+    let i, x, y, stop, tries;
 
     // Place player
     world.entities.add(player);
 
     // Place Apples
-    var apple = images.apple;
-    for(i = 0; i < appleCount; i++) {
+    const apple = images.apple;
+    for (i = 0; i < appleCount; i++) {
         stop = false;
         tries = 200;
-        while(!stop && tries-- > 0) {
+        while (!stop && tries-- > 0) {
             x = apple.width + Math.random() * (boundaryX - 2*apple.width);
             y = apple.height + Math.random() * (boundaryY - 2*apple.height);
             // Make sure they're not blocking the starting area
-            if((x < (boundaryX / 2 - 100) || x > (boundaryX / 2 + 100)) &&
+            if ((x < (boundaryX / 2 - 100) || x > (boundaryX / 2 + 100)) &&
                 (y < (boundaryY / 2 - 100) || y > (boundaryY / 2 + 100))) {
-                var a = new Entity(apple, x,y, 10,10,10,10, false);
+                const a = new Entity(apple, x,y, 10,10,10,10, false);
                 a.handleCollision = function (other) {
-                    if (other == player) {
+                    if (other === player) {
                         world.entities.remove(this);
                         world.entities.add(new Bling(player.x, player.topEdge()));
                         score++;
@@ -166,15 +166,15 @@ function init() {
     }
 
     // Make some trees
-    for(i = 0; i < treeCount; i++) {
+    for (let i = 0; i < treeCount; i++) {
         stop = false;
         tries = 200;
-        while(!stop && tries-- > 0) {
-            var r = Math.random();
-            var treeType;
-            if(r > 0.3) {
+        while (!stop && tries-- > 0) {
+            const r = Math.random();
+            let treeType;
+            if (r > 0.3) {
                 treeType = GreenTree;
-            } else if(r > 0.2) {
+            } else if (r > 0.2) {
                 treeType = ThinTree;
             } else {
                 treeType = PinkTree;
@@ -182,7 +182,7 @@ function init() {
             x = 100 + Math.random() * (boundaryX - 300);
             y = 100 + ((boundaryY - 300) / treeCount * (i + 1));
             // Make sure they're not blocking the starting area
-            if((x < (boundaryX / 2 - 100) || x > (boundaryX / 2 + 100)) &&
+            if ((x < (boundaryX / 2 - 100) || x > (boundaryX / 2 + 100)) &&
                 (y < (boundaryY / 2 - 100) || y > (boundaryY / 2 + 100))) {
                 world.entities.add(new treeType(x,y));
                 stop = true;
@@ -223,7 +223,7 @@ function draw() {
     context.restore();
 
     // Draw entities
-    var drawn = 0;
+    let drawn = 0;
 
     world.entities.each(function (entity) {
         entity.draw(context);
@@ -262,10 +262,10 @@ function drawText(text, x, y) {
 
 function startGame() {
     console.log("*** startGame called");
-    if(!imagesReady) {
+    if (!imagesReady) {
         console.log("Images not ready...");
         return;
-    } else if(!documentReady) {
+    } else if (!documentReady) {
         console.log("Document not ready...");
         return;
     }
@@ -275,11 +275,11 @@ function startGame() {
     // Start for real
     init();
 
-    var mainloop = function() {
+    const mainloop = function() {
         update();
         draw();
     };
-    var animationFrame = window.requestAnimationFrame ||
+    const animationFrame = window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame    ||
         window.oRequestAnimationFrame      ||
@@ -287,7 +287,7 @@ function startGame() {
         null ;
 
     if (animationFrame !== null) {
-        var recurse = function() {
+        const recurse = function() {
             mainloop();
             animationFrame(recurse, canvas);
         };
