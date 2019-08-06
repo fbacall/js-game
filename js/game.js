@@ -69,15 +69,16 @@ window.onload = function() {
     canvas.addEventListener('mousemove', function (event) {
         if (clickMoving) {
             event.preventDefault();
-            const x = (event.pageX - canvas.offsetLeft) + camera.leftEdge() - player.x;
-            const y = (event.pageY - canvas.offsetTop) + camera.topEdge() - player.y;
+            const x = (event.pageX - canvas.offsetLeft) - (canvas.width * zoom / 2);
+            const y = (event.pageY - canvas.offsetTop) - (canvas.height * zoom / 2);
             player.acceleration = normalise([x,y],15);
         }
     });
     canvas.addEventListener('mousedown', function (event) {
         event.preventDefault();
-        const x = (event.pageX - canvas.offsetLeft) + camera.leftEdge() - player.x;
-        const y = (event.pageY - canvas.offsetTop) + camera.topEdge() - player.y;
+        const x = (event.pageX - canvas.offsetLeft) - (canvas.width * zoom / 2);
+        const y = (event.pageY - canvas.offsetTop) - (canvas.height * zoom / 2);
+
         player.acceleration = normalise([x,y],15);
         clickMoving = true;
 
@@ -111,6 +112,11 @@ function init() {
     settings.playerAcceleration = parseFloat(document.getElementById('cPlayerAcceleration').value);
     friction = parseFloat(document.getElementById('cFriction').value);
     enemyCount = parseInt(document.getElementById('cEnemyCount').value);
+    scale = parseFloat(document.getElementById('cScale').value);
+    zoom = parseFloat(document.getElementById('cZoom').value);
+
+    canvas.style.width = "" + canvas.width * zoom + "px";
+    canvas.style.height = "" + canvas.height * zoom + "px";
 
     score = 0;
 
@@ -238,8 +244,8 @@ function draw() {
 
     context.restore();
     // Draw score
-    context.font="20px Arial";
-    drawText("Score: " + score, 10, 30);
+    context.font="10px Arial";
+    drawText("Score: " + score, 2, 10);
     if (debug.enabled) {
         debug.entityCount = world.entities.count;
         debug.drawnEntityCount = drawn;

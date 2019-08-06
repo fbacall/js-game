@@ -16,6 +16,6 @@ class Sprite {
         context.drawImage(this.image,
             (this.width * this.animations[animation][frame][0]),
             (this.height * this.animations[animation][frame][1]),
-            this.width, this.height, x, y, this.width, this.height);
+            this.width, this.height, x, y, this.width * scale, this.height * scale);
     }
 }

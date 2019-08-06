@@ -1,5 +1,5 @@
 let frames = 0;
-let boundaryX, boundaryY, treeCount, appleCount, maxSpeed, acceleration, friction;
+let boundaryX, boundaryY, treeCount, appleCount, maxSpeed, acceleration, friction, scale, zoom;
 const MAP = { solid: true };
 
 const imageUrls = {

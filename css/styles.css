@@ -30,6 +30,10 @@ body {
     background-color: #444;
     border: 1px solid #666;
     display: block;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
 }
 
 div.panel {

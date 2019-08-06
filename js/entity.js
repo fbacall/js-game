@@ -1,13 +1,13 @@
 class Entity extends Box {
     constructor (image, x, y, bTop, bRight, bBottom, bLeft, solid) {
-        super(Math.round(x), Math.round(y), image.width, image.height);
+        super(Math.round(x), Math.round(y), image.width * scale, image.height * scale);
 
         this.image = image;
 
-        this.boundaryTop = bTop || this.image.height/2;
-        this.boundaryRight = bRight || this.image.width/2;
-        this.boundaryBottom = bBottom || this.image.height/2;
-        this.boundaryLeft = bLeft || this.image.width/2;
+        this.boundaryTop = (bTop || this.image.height / 2) * scale;
+        this.boundaryRight = (bRight || this.image.width / 2) * scale;
+        this.boundaryBottom = (bBottom || this.image.height / 2) * scale;
+        this.boundaryLeft = (bLeft || this.image.width / 2) * scale;
 
         this.solid = solid || false;
         this.collidable = true;
@@ -17,7 +17,9 @@ class Entity extends Box {
     }
 
     draw (context) {
-        context.drawImage(this.image, this.leftEdge(), this.topEdge());
+        context.drawImage(this.image, 0, 0, this.image.width, this.image.height, this.leftEdge(), this.topEdge(),
+            this.image.width * scale,
+            this.image.height * scale);
     }
 
     rightBoundary () {
