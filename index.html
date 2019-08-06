@@ -5,49 +5,53 @@
 </head>
 <body>
 <div id="container">
-  <h1>Manvas</h1>
-  <div>Click to move. Collect all the apples to win. Don't get got by the baddies!</div>
-  <div id="canvas_container">
+  <div id="info">
+    <h1>Manvas</h1>
+    <div>Click to move. Collect all the apples to win. Don't get got by the baddies!</div>
+  </div>
+  <div id="canvas-container">
     <canvas id="canvas" width="640" height="480"></canvas>
   </div>
-  <div class="panel">
-    <a id="settingsToggle">Settings</a>
-    <div id="settings">
-      <p>
-        Map size: <br/>
-        <input type="text" id="cBoundaryX" size="4" value="1280"/>x<input type="text" id="cBoundaryY"  size="4" value="1280"/>
-      </p>
-      <p>
-        Trees:  <br/>
-        <input type="text" id="cTreeCount" value="50"/>
-      </p>
-      <p>
-        Apples:  <br/>
-        <input type="text" id="cAppleCount" value="50"/>
-      </p>
-      <p>
-        Enemies:  <br/>
-        <input type="text" id="cEnemyCount" value="5"/>
-      </p>
-      <p>
-        Max Player Speed:  <br/>
-        <input type="text" id="cMaxSpeed" value="5"/>
-      </p>
-      <p>
-        Player Acceleration: <br/>
-        <input type="text" id="cPlayerAcceleration" value="0.7"/>
-      </p>
-      <p>
-        Friction: <br/>      
-        <input type="text" id="cFriction" value="0.4"/>
-      </p>
-      <button id="applySettings">Apply</button>
+  <div id="controls">
+    <div class="panel">
+      <a id="settingsToggle">Settings</a>
+      <div id="settings">
+        <p>
+          Map size: <br/>
+          <input type="text" id="cBoundaryX" size="4" value="1280"/>x<input type="text" id="cBoundaryY"  size="4" value="1280"/>
+        </p>
+        <p>
+          Trees:  <br/>
+          <input type="text" id="cTreeCount" value="50"/>
+        </p>
+        <p>
+          Apples:  <br/>
+          <input type="text" id="cAppleCount" value="50"/>
+        </p>
+        <p>
+          Enemies:  <br/>
+          <input type="text" id="cEnemyCount" value="5"/>
+        </p>
+        <p>
+          Max Player Speed:  <br/>
+          <input type="text" id="cMaxSpeed" value="5"/>
+        </p>
+        <p>
+          Player Acceleration: <br/>
+          <input type="text" id="cPlayerAcceleration" value="0.7"/>
+        </p>
+        <p>
+          Friction: <br/>
+          <input type="text" id="cFriction" value="0.4"/>
+        </p>
+        <button id="applySettings">Apply</button>
+      </div>
     </div>
-  </div>
-  <div class="panel">
-    <a id="debugToggle">Debugging</a>
-    <div id="debug" style="display: none">
-      Show borders: <input type="checkbox" id="showBorders"/><br/>
+    <div class="panel">
+      <a id="debugToggle">Debugging</a>
+      <div id="debug" style="display: none">
+        Show borders: <input type="checkbox" id="showBorders"/><br/>
+      </div>
     </div>
   </div>
   <div style="clear: both"></div>
